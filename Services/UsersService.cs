@@ -18,18 +18,22 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
 
         public List<UserDTO> GetAllUsers()
         {
-            var allUsers = _userRepository.GetAll();
+            var allUsers = _userRepository.GetAllAsync().Result;
             var usersDTO = _mapper.Map<List<UserDTO>>(allUsers);
 
             return usersDTO;
         }
 
-        public UserDTO GetUserById(int id)
+        public UserDTO? GetUserById(int id)
         {
-            var user = _userRepository.Get(id);
-            var userDTO = _mapper.Map<UserDTO>(user);
+            var user = _userRepository.GetAsync(id).Result;
 
-            return userDTO;
+            if(user == null) return null;
+            else
+            {
+                var userDTO = _mapper.Map<UserDTO>(user);
+                return userDTO;
+            }
         }
     }
 }

@@ -14,18 +14,18 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             this._dbContext = dBContext;
         }
 
-        public IEnumerable<Wallet> GetAll()
+        public async Task<IEnumerable<Wallet>> GetAllAsync()
         {
-            return _dbContext.Wallets
+            return await _dbContext.Wallets
                 .Include(w => w.Assets)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Wallet? Get(int id)
+        public async Task<Wallet?> GetAsync(int id)
         {
-            return _dbContext.Wallets
+            return await _dbContext.Wallets
                 .Include(w => w.Assets)
-                .FirstOrDefault(w => w.WalletId == id);
+                .FirstOrDefaultAsync(w => w.WalletId == id);
         }
     }
 }

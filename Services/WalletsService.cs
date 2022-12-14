@@ -17,18 +17,24 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
 
         public List<WalletDTO> GetAllWallets()
         {
-            var allWallets = _walletRepository.GetAll();
+            var allWallets = _walletRepository.GetAllAsync().Result;
             var allWalletsDTOs = _mapper.Map<List<WalletDTO>>(allWallets);
 
             return allWalletsDTOs;
         }
 
-        public WalletDTO GetWalletById(int id)
+        public WalletDTO? GetWalletById(int id)
         {
-            var wallet = _walletRepository.Get(id);
-            var walletDTO = _mapper.Map<WalletDTO>(wallet);
+            var wallet = _walletRepository.GetAsync(id).Result;
 
-            return walletDTO;
+            if(wallet == null) return null;
+
+            else
+            {
+                var walletDTO = _mapper.Map<WalletDTO>(wallet);
+                return walletDTO;
+            }
+        
         }
     }
 }

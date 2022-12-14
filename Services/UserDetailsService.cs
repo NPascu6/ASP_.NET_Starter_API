@@ -18,26 +18,34 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
 
         public List<UserDetailsDTO> GetAllUserDetails()
         {
-            var allUsersDetails = _userDetailsRepository.GetAll();
+            var allUsersDetails = _userDetailsRepository.GetAllAsync().Result;
             var allUsersDetailsDTOs = _mapper.Map<List<UserDetailsDTO>>(allUsersDetails);
 
             return allUsersDetailsDTOs;
         }
     
-        public UserDetailsDTO GetUserDetailsById(int id)
+        public UserDetailsDTO? GetUserDetailsById(int id)
         {
-            var userDetails = _userDetailsRepository.Get(id);
-            var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
+            var userDetails = _userDetailsRepository.GetAsync(id).Result;
 
-            return userDetailsDTO;
+            if(userDetails == null) return null;
+            else
+            {
+                var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
+                return userDetailsDTO;
+            }
         }
 
-        public UserDetailsDTO GetUserDetailsByUserId(int id)
+        public UserDetailsDTO? GetUserDetailsByUserId(int id)
         {
-            var userDetails = _userDetailsRepository.GetByUserId(id);
-            var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
+            var userDetails = _userDetailsRepository.GetByUserIdAsync(id).Result;
 
-            return userDetailsDTO;
+            if (userDetails == null) return null;
+            else
+            {
+                var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
+                return userDetailsDTO;
+            }
         }
     }
 }

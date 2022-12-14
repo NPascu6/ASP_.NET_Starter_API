@@ -1,5 +1,6 @@
-using ASP_CORE_BASIC_NET_6_API.Services;
+using ASP_CORE_BASIC_NET_6_API.Models.Domain;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP_CORE_BASIC_NET_6_API.Controllers
@@ -15,28 +16,33 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             this._userDetailsService = userDetailsService;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/GetAllUserDetails")]
         public IActionResult GetAllUserDetails()
         {
-            var users = _userDetailsService.GetAllUserDetails();
-            return Ok(users);
+            var allUsersDetails = _userDetailsService.GetAllUserDetails();
+            return Ok(allUsersDetails);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/GetUserDetailsById/{id}")]
         public IActionResult Get(int id)
         {
-            var users = _userDetailsService.GetUserDetailsById(id);
-            return Ok(users);
+            var userDetail = _userDetailsService.GetUserDetailsById(id);
+            if (userDetail == null) return NotFound($"Item with id {id} not found.");
+            return Ok(userDetail);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/GetUserDetailsByUserId/{id}")]
         public IActionResult GetByUserId(int id)
         {
-            var users = _userDetailsService.GetUserDetailsByUserId(id);
-            return Ok(users);
+            var userDetail = _userDetailsService.GetUserDetailsByUserId(id);
+            if (userDetail == null) return NotFound($"Item with id {id} not found.");
+            return Ok(userDetail);
         }
     }
 }

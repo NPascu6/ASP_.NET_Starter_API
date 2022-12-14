@@ -18,18 +18,21 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
 
         public List<UserRoleDTO> GetAllUserRoles()
         {
-            var allRoles = _userRolesRepository.GetAll();
+            var allRoles = _userRolesRepository.GetAllAsync().Result;
             var allRolesDTOs = _mapper.Map<List<UserRoleDTO>>(allRoles);
 
             return allRolesDTOs;
         }
 
-        public UserRoleDTO GetUserRoleById(int id)
+        public UserRoleDTO? GetUserRoleById(int id)
         {
-            var userRole = _userRolesRepository.Get(id);
-            var roleDTO = _mapper.Map<UserRoleDTO>(userRole);
-
-            return roleDTO;
+            var userRole = _userRolesRepository.GetAsync(id).Result;
+            if (userRole == null) return null;
+            else
+            {
+                var roleDTO = _mapper.Map<UserRoleDTO>(userRole);
+                return roleDTO;
+            }
         }
     }
 }

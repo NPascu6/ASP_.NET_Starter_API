@@ -1,6 +1,7 @@
 ﻿using ASP_CORE_BASIC_NET_6_API.Data;
 using ASP_CORE_BASIC_NET_6_API.Models.Domain;
 using ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP_CORE_BASIC_NET_6_API.Repositories
 {
@@ -13,14 +14,14 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             this._dbContext = dBContext;
         }
 
-        public IEnumerable<UserRole> GetAll()
+        public async Task<IEnumerable<UserRole>> GetAllAsync()
         {
-            return _dbContext.UserRoles.ToList();
+            return await _dbContext.UserRoles.ToListAsync();
         }
 
-        public UserRole? Get(int id)
+        public async Task<UserRole?> GetAsync(int id)
         {
-            return _dbContext.UserRoles.FirstOrDefault(ur => ur.UserRoleId == id);
+            return await _dbContext.UserRoles.FirstOrDefaultAsync(ur => ur.UserRoleId == id);
         }
     }
 }

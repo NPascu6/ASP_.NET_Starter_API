@@ -14,28 +14,28 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             this._dbContext = dBContext;
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return _dbContext.Users
+            return await _dbContext.Users
                 .Include(c => c.UserDetails)
                     .ThenInclude(d => d.Wallet)
                     .ThenInclude(w => w.Assets)
                 .Include(c => c.UserDetails)
                     .ThenInclude(d => d.UserRole)
                 .Include(c => c.UserDetails)
-                .ToList();
+                .ToListAsync();
         }
 
-        public User? Get(int id)
+        public async Task<User?> GetAsync(int id)
         {
-            return _dbContext.Users
+            return await _dbContext.Users
                 .Include(c => c.UserDetails)
                     .ThenInclude(d => d.Wallet)
                     .ThenInclude(w => w.Assets)
                 .Include(c => c.UserDetails)
                     .ThenInclude(d => d.UserRole)
                 .Include(c => c.UserDetails)
-                .FirstOrDefault(u => u.UserId == id);
+                .FirstOrDefaultAsync(u => u.UserId == id);
         }
     }
 }

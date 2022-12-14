@@ -14,29 +14,29 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             this._dbContext = dBContext;
         }
 
-        public IEnumerable<UserDetails> GetAll()
+        public async Task<IEnumerable<UserDetails>> GetAllAsync()
         {
-            return _dbContext.UserDetails
+            return await _dbContext.UserDetails
                 .Include(d => d.Wallet)
                     .ThenInclude(w => w.Assets)
                 .Include(d => d.UserRole)
-                .ToList();
+                .ToListAsync();
         }
 
-        public UserDetails? Get(int id)
+        public async Task<UserDetails?> GetAsync(int id)
         {
-            return _dbContext.UserDetails.Include(d => d.Wallet)
+            return await  _dbContext.UserDetails.Include(d => d.Wallet)
                     .ThenInclude(w => w.Assets)
                 .Include(d => d.UserRole)
-                .FirstOrDefault(userDetails => userDetails.UserDetailsId == id);
+                .FirstOrDefaultAsync(userDetails => userDetails.UserDetailsId == id);
         }
 
-        public UserDetails? GetByUserId(int id)
+        public async Task<UserDetails?> GetByUserIdAsync(int id)
         {
-            return _dbContext.UserDetails.Include(d => d.Wallet)
+            return await _dbContext.UserDetails.Include(d => d.Wallet)
                     .ThenInclude(w => w.Assets)
                 .Include(d => d.UserRole)
-                .FirstOrDefault(userDetails => userDetails.UserId == id);
+                .FirstOrDefaultAsync(userDetails => userDetails.UserId == id);
         }
 
     }

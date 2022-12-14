@@ -18,18 +18,22 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
 
         public List<AssetDTO> GetAllAssets()
         {
-            var allAssets = _assetRepository.GetAll();
+            var allAssets = _assetRepository.GetAllAsync().Result;
             var allAssetsDTOs = _mapper.Map<List<AssetDTO>>(allAssets);
 
             return allAssetsDTOs;
         }
 
-        public AssetDTO GetAssetById(int id)
+        public AssetDTO? GetAssetById(int id)
         {
-            var asset = _assetRepository.Get(id);
-            var assetDTO = _mapper.Map<AssetDTO>(asset);
+            var asset = _assetRepository.GetAsync(id).Result;
 
-            return assetDTO;
+            if(asset == null) return null;
+            else
+            {
+                var assetDTO = _mapper.Map<AssetDTO>(asset);
+                return assetDTO;
+            }
         }
     }
 }

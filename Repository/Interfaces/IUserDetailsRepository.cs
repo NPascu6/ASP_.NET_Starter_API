@@ -4,8 +4,8 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces
 {
     public interface IUserDetailsRepository
     {
-        IEnumerable<UserDetails> GetAll();
-        UserDetails? Get(int id);
-        UserDetails? GetByUserId(int id);
+        Task<IEnumerable<UserDetails>> GetAllAsync();
+        Task<UserDetails?> GetAsync(int id);
+        Task<UserDetails?> GetByUserIdAsync(int id);
     }
 }

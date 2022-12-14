@@ -1,4 +1,5 @@
 ﻿using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP_CORE_BASIC_NET_6_API.Controllers
@@ -14,6 +15,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             _assetService = assetService;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/GetAllAssets")]
         public IActionResult GetAllAssets()
@@ -22,13 +24,15 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             return Ok(assets);
         }
 
-
+        [Authorize]
         [HttpGet]
         [Route("/GetAssetById/{id}")]
         public IActionResult Get(int id)
         {
-            var users = _assetService.GetAssetById(id);
-            return Ok(users);
+            var asset = _assetService.GetAssetById(id);
+
+            if(asset == null) return NotFound($"Item with id {id} not found.");
+            return Ok(asset);
         }
     }
 }

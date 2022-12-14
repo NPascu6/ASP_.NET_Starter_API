@@ -29,8 +29,9 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         [Route("/GetWalletById/{id}")]
         public IActionResult Get(int id)
         {
-            var user = _walletService.GetWalletById(id);
-            return Ok(user);
+            var wallet = _walletService.GetWalletById(id);
+            if(wallet == null) return NotFound($"Item with id {id} not found.");
+            return Ok(wallet);
         }
     }
 }

@@ -24,12 +24,14 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             return Ok(users);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/GetUserById/{id}")]
         public IActionResult Get(int id)
         {
-            var users = _usersService.GetUserById(id);
-            return Ok(users);
+            var user = _usersService.GetUserById(id);
+            if (user == null) return NotFound($"Item with id {id} not found.");
+            return Ok(user);
         }
     }
 }
