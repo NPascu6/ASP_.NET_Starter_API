@@ -4,7 +4,8 @@ namespace ASP_CORE_BASIC_NET_6_API.Services.Interfaces
 {
     public interface IUsersService
     {
-        List<UserDTO> GetAllUsers();
-        UserDTO? GetUserById(int id);
+        Task<List<UserDTO>> GetAllUsers();
+        Task<UserDTO?> GetById(int id);
+        Task<UserDTO?> AddUser(UserDTO userDTO);
     }
 }

@@ -1,4 +1,5 @@
-﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+﻿using ASP_CORE_BASIC_NET_6_API.Models.Domain;
+using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
 using ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using AutoMapper;
@@ -16,23 +17,58 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             _mapper = mapper;
         }
 
-        public List<UserDTO> GetAllUsers()
+        public async Task<List<UserDTO>> GetAllUsers()
         {
-            var allUsers = _userRepository.GetAllAsync().Result;
-            var usersDTO = _mapper.Map<List<UserDTO>>(allUsers);
+            try
+            {
+                var allUsers = await _userRepository.GetAllAsync();
+                var usersDTO = _mapper.Map<List<UserDTO>>(allUsers);
 
-            return usersDTO;
+                return usersDTO;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
-        public UserDTO? GetUserById(int id)
+        public async Task<UserDTO?> GetById(int id)
         {
-            var user = _userRepository.GetAsync(id).Result;
-
-            if(user == null) return null;
-            else
+            try
             {
-                var userDTO = _mapper.Map<UserDTO>(user);
-                return userDTO;
+                var user = await _userRepository.GetAsync(id);
+
+                if (user == null) return null;
+                else
+                {
+                    var userDTO = _mapper.Map<UserDTO>(user);
+                    return userDTO;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<UserDTO?> AddUser(UserDTO userDTO)
+        {
+            try
+            {
+                var user = _mapper.Map<User>(userDTO);
+
+                var addedUser = await _userRepository.AddAsync(user);
+
+                if (addedUser == null) return null;
+                else
+                {
+                    var added = _mapper.Map<UserDTO>(addedUser);
+                    return added;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }

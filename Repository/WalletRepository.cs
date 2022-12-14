@@ -27,5 +27,20 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
                 .Include(w => w.Assets)
                 .FirstOrDefaultAsync(w => w.WalletId == id);
         }
+
+        public Task<Wallet> AddAsync(Wallet wallet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Wallet> UpdateAsync(Wallet wallet)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

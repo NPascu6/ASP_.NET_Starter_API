@@ -7,6 +7,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Profiles
         public UserDetailsProfile()
         {
             CreateMap<Models.Domain.UserDetails, Models.DTOs.UserDetailsDTO>();
+            CreateMap<Models.DTOs.UserDetailsDTO, Models.Domain.UserDetails>();
         }
     }
 }

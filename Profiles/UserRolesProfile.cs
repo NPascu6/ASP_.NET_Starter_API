@@ -7,6 +7,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Profiles
         public UserRolesProfile()
         {
             CreateMap<Models.Domain.UserRole, Models.DTOs.UserRoleDTO>();
+            CreateMap<Models.DTOs.UserRoleDTO, Models.Domain.UserRole>();
         }
     }
 }

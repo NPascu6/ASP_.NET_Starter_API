@@ -7,6 +7,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Profiles
         public WalletProfile()
         {
             CreateMap<Models.Domain.Wallet, Models.DTOs.WalletDTO>();
+            CreateMap<Models.DTOs.WalletDTO, Models.Domain.Wallet>();
         }
     }
 }

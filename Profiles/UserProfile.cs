@@ -6,8 +6,8 @@ namespace ASP_CORE_BASIC_NET_6_API.Profiles
     {
         public UserProfile()
         {
-            CreateMap<Models.Domain.User, Models.DTOs.UserDTO>()
-                .ReverseMap();
+            CreateMap<Models.Domain.User, Models.DTOs.UserDTO>();
+            CreateMap<Models.DTOs.UserDTO, Models.Domain.User>();
         }
     }
 }

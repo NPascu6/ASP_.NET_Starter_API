@@ -31,11 +31,29 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             return await _dbContext.Users
                 .Include(c => c.UserDetails)
                     .ThenInclude(d => d.Wallet)
-                    .ThenInclude(w => w.Assets)
+                        .ThenInclude(w => w.Assets)
                 .Include(c => c.UserDetails)
                     .ThenInclude(d => d.UserRole)
                 .Include(c => c.UserDetails)
                 .FirstOrDefaultAsync(u => u.UserId == id);
+        }
+
+        public async Task<User> AddAsync(User user)
+        {
+            await _dbContext.Users.AddAsync(user);
+            await _dbContext.SaveChangesAsync();
+
+            return user;
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> UpdateAsync(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

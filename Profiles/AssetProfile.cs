@@ -7,6 +7,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Profiles
         public AssetProfile()
         {
             CreateMap<Models.Domain.Asset, Models.DTOs.AssetDTO>();
+            CreateMap<Models.DTOs.AssetDTO, Models.Domain.Asset>();
         }
     }
 }

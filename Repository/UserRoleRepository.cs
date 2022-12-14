@@ -23,5 +23,20 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
         {
             return await _dbContext.UserRoles.FirstOrDefaultAsync(ur => ur.UserRoleId == id);
         }
+
+        public Task<UserRole> AddAsync(UserRole userRole)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserRole> UpdateAsync(UserRole userRole)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

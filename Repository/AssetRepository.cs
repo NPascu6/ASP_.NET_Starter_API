@@ -14,7 +14,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             this._dbContext = dBContext;
         }
 
-
         public async Task<IEnumerable<Asset>> GetAllAsync()
         {
             return await _dbContext.Assets.ToListAsync();
@@ -23,6 +22,21 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
         public async Task<Asset?> GetAsync(int id)
         {
             return await _dbContext.Assets.FirstOrDefaultAsync(a => a.AssetId == id);
+        }
+
+        public Task<Asset> AddAsync(Asset asset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Asset> UpdateAsync(Asset asset)
+        {
+            throw new NotImplementedException();
         }
     }
 }

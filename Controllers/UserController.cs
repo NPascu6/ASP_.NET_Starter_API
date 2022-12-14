@@ -1,3 +1,4 @@
+using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,19 +19,28 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         [Authorize]
         [HttpGet]
         [Route("/GetAllUsers")]
-        public IActionResult GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
-            var users = _usersService.GetAllUsers();
+            var users = await _usersService.GetAllUsers();
             return Ok(users);
         }
 
         [Authorize]
         [HttpGet]
-        [Route("/GetUserById/{id}")]
-        public IActionResult Get(int id)
+        [Route("/GetById/{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            var user = _usersService.GetUserById(id);
+            var user = await _usersService.GetById(id);
             if (user == null) return NotFound($"Item with id {id} not found.");
+            return Ok(user);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddUser(UserDTO userDTO)
+        {
+            var user = await _usersService.AddUser(userDTO);
+            if (user == null) return NotFound($"Item {userDTO} not added.");
             return Ok(user);
         }
     }

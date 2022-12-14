@@ -39,5 +39,19 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
                 .FirstOrDefaultAsync(userDetails => userDetails.UserId == id);
         }
 
+        public Task<UserDetails> AddAsync(UserDetails userDetails)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserDetails> UpdateAsync(UserDetails userDetails)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
