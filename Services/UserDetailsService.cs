@@ -1,7 +1,7 @@
-﻿using ASP_CORE_BASIC_NET_6_API.Models.Domain;
-using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
 using ASP_CORE_BASIC_NET_6_API.Repositories;
 using ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces;
+using ASP_CORE_BASIC_NET_6_API.Repository.Models;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using AutoMapper;
 

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using ASP_CORE_BASIC_NET_6_API.Repository.Models;
+using AutoMapper;
 
 namespace ASP_CORE_BASIC_NET_6_API.Profiles
 {
@@ -6,8 +7,8 @@ namespace ASP_CORE_BASIC_NET_6_API.Profiles
     {
         public UserRolesProfile()
         {
-            CreateMap<Models.Domain.UserRole, Models.DTOs.UserRoleDTO>();
-            CreateMap<Models.DTOs.UserRoleDTO, Models.Domain.UserRole>();
+            CreateMap<UserRole, Models.DTOs.UserRoleDTO>();
+            CreateMap<Models.DTOs.UserRoleDTO, UserRole>();
         }
     }
 }

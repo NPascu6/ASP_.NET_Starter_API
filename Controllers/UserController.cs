@@ -40,6 +40,12 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         [Route("/AddUser")]
         public async Task<IActionResult> AddUser(UserDTO userDTO)
         {
+
+            if (!ValidateAddUser(userDTO))
+            {
+                return BadRequest();
+            }
+
             var user = await _usersService.AddUser(userDTO);
             if (user == null) return NotFound($"Item {userDTO} not added.");
             return Ok(user);
@@ -64,5 +70,41 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             if (user == false) return NotFound($"User {id} not found.");
             return Ok(user);
         }
+
+        #region Private Methods
+
+        private bool ValidateAddUser(UserDTO userDTO)
+        {
+            if(userDTO == null)
+            {
+                ModelState.AddModelError(nameof(userDTO), $"{nameof(userDTO)} cannot be empty.");
+                return false;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(userDTO.Email))
+                {
+                    ModelState.AddModelError(nameof(userDTO.Email), $"{nameof(userDTO.Email)} cannot be empty.");
+                }
+                if (string.IsNullOrEmpty(userDTO.FirstName))
+                {
+                    ModelState.AddModelError(nameof(userDTO.FirstName), $"{nameof(userDTO.FirstName)} cannot be empty.");
+                }
+
+                if (string.IsNullOrEmpty(userDTO.LastName))
+                {
+                    ModelState.AddModelError(nameof(userDTO.LastName), $"{nameof(userDTO.LastName)} cannot be empty.");
+                }
+
+                if (ModelState.ErrorCount > 0)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        #endregion
     }
 }

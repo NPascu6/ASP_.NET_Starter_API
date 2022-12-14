@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ASP_CORE_BASIC_NET_6_API.Models.Domain
+namespace ASP_CORE_BASIC_NET_6_API.Repository.Models
 {
     public class Asset
     {

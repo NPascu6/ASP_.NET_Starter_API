@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using ASP_CORE_BASIC_NET_6_API.Repository.Models;
+using AutoMapper;
 
 namespace ASP_CORE_BASIC_NET_6_API.Profiles
 {
@@ -6,8 +7,8 @@ namespace ASP_CORE_BASIC_NET_6_API.Profiles
     {
         public WalletProfile()
         {
-            CreateMap<Models.Domain.Wallet, Models.DTOs.WalletDTO>();
-            CreateMap<Models.DTOs.WalletDTO, Models.Domain.Wallet>();
+            CreateMap<Wallet, Models.DTOs.WalletDTO>();
+            CreateMap<Models.DTOs.WalletDTO, Wallet>();
         }
     }
 }
