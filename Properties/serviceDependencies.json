@@ -2,6 +2,18 @@
   "dependencies": {
     "apis1": {
       "type": "apis"
+    },
+    "apis2": {
+      "type": "apis"
+    },
+    "identityapp1": {
+      "type": "identityapp",
+      "dynamicId": null
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:ASP_CORE_6",
+      "dynamicId": null
     }
   }
 }

@@ -42,9 +42,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         public async Task<IActionResult> AddUser(UserDTO userDTO)
         {
             UserValidators validator = new UserValidators();
-
             var result = validator.Validate(userDTO);
-
 
             if (result.IsValid)
             {
@@ -63,9 +61,19 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         [Route("/UpdateUser/{id}")]
         public async Task<IActionResult> UpdateUser(UserDTO userDTO, int id)
         {
-            var user = await _usersService.UpdateUser(userDTO, id);
-            if (user == null) return NotFound($"Item {userDTO} not updated.");
-            return Ok(user);
+            UserValidators validator = new UserValidators();
+            var result = validator.Validate(userDTO);
+
+            if (result.IsValid)
+            {
+                var user = await _usersService.UpdateUser(userDTO, id);
+                if (user == null) return NotFound($"Item {userDTO} not updated.");
+                return Ok(user);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
         }
 
         [Authorize]
@@ -77,41 +85,5 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             if (user == false) return NotFound($"User {id} not found.");
             return Ok(user);
         }
-
-        #region Private Methods
-
-        private bool ValidateAddUser(UserDTO userDTO)
-        {
-            if(userDTO == null)
-            {
-                ModelState.AddModelError(nameof(userDTO), $"{nameof(userDTO)} cannot be empty.");
-                return false;
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(userDTO.Email))
-                {
-                    ModelState.AddModelError(nameof(userDTO.Email), $"{nameof(userDTO.Email)} cannot be empty.");
-                }
-                if (string.IsNullOrEmpty(userDTO.FirstName))
-                {
-                    ModelState.AddModelError(nameof(userDTO.FirstName), $"{nameof(userDTO.FirstName)} cannot be empty.");
-                }
-
-                if (string.IsNullOrEmpty(userDTO.LastName))
-                {
-                    ModelState.AddModelError(nameof(userDTO.LastName), $"{nameof(userDTO.LastName)} cannot be empty.");
-                }
-
-                if (ModelState.ErrorCount > 0)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-        }
-
-        #endregion
     }
 }
