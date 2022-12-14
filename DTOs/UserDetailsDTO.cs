@@ -2,10 +2,11 @@
 {
     public class UserDetailsDTO
     {
+        public int UserId { get; set; }
         public int? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public string? BirthDate { get; set; }
         public UserRoleDTO? UserRole { get; set; }
-        public WalletDTO? Wallet { get; set; }
+        public IEnumerable<WalletDTO>? Wallets { get; set; }
     }
 }

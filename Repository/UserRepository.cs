@@ -18,8 +18,8 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
         {
             return await _dbContext.Users
                 .Include(c => c.UserDetails)
-                    .ThenInclude(d => d.Wallet)
-                    .ThenInclude(w => w.Assets)
+                    .ThenInclude(d => d.Wallets)
+                        .ThenInclude(e => e.Assets)
                 .Include(c => c.UserDetails)
                     .ThenInclude(d => d.UserRole)
                 .Include(c => c.UserDetails)
@@ -30,11 +30,10 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
         {
             return await _dbContext.Users
                 .Include(c => c.UserDetails)
-                    .ThenInclude(d => d.Wallet)
-                        .ThenInclude(w => w.Assets)
-                .Include(c => c.UserDetails)
                     .ThenInclude(d => d.UserRole)
                 .Include(c => c.UserDetails)
+                    .ThenInclude(d => d.Wallets)
+                        .ThenInclude(e => e.Assets)
                 .FirstOrDefaultAsync(u => u.UserId == id);
         }
 

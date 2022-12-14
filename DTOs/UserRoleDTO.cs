@@ -2,6 +2,7 @@
 {
     public class UserRoleDTO
     {
+        public int UserRoleId { get; set; }
         public string? RoleName { get; set; }
         public int? RoleId { get; set; }
     }

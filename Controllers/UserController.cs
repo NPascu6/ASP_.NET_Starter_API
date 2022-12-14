@@ -1,5 +1,6 @@
 using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
+using ASP_CORE_BASIC_NET_6_API.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,15 +41,21 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         [Route("/AddUser")]
         public async Task<IActionResult> AddUser(UserDTO userDTO)
         {
+            UserValidators validator = new UserValidators();
 
-            if (!ValidateAddUser(userDTO))
+            var result = validator.Validate(userDTO);
+
+
+            if (result.IsValid)
             {
-                return BadRequest();
+                var user = await _usersService.AddUser(userDTO);
+                if (user == null) return NotFound($"Item {userDTO} not added.");
+                return Ok(user);
             }
-
-            var user = await _usersService.AddUser(userDTO);
-            if (user == null) return NotFound($"Item {userDTO} not added.");
-            return Ok(user);
+            else
+            {
+                return BadRequest(result.Errors);
+            }
         }
 
         [Authorize]

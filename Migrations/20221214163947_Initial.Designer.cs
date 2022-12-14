@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPCOREBASICNET6API.Migrations
 {
     [DbContext(typeof(DBContextBase))]
-    [Migration("20221214130039_Initial-Migration")]
-    partial class InitialMigration
+    [Migration("20221214163947_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ASPCOREBASICNET6API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.Asset", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.Asset", b =>
                 {
                     b.Property<int>("AssetId")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace ASPCOREBASICNET6API.Migrations
                     b.ToTable("Assets");
                 });
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.User", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace ASPCOREBASICNET6API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.UserDetails", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.UserDetails", b =>
                 {
                     b.Property<int>("UserDetailsId")
                         .ValueGeneratedOnAdd()
@@ -94,9 +94,6 @@ namespace ASPCOREBASICNET6API.Migrations
                     b.Property<int>("UserRoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WalletId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserDetailsId");
 
                     b.HasIndex("UserId")
@@ -104,12 +101,10 @@ namespace ASPCOREBASICNET6API.Migrations
 
                     b.HasIndex("UserRoleId");
 
-                    b.HasIndex("WalletId");
-
                     b.ToTable("UserDetails");
                 });
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.UserRole", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.UserRole", b =>
                 {
                     b.Property<int>("UserRoleId")
                         .ValueGeneratedOnAdd()
@@ -128,7 +123,7 @@ namespace ASPCOREBASICNET6API.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.Wallet", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.Wallet", b =>
                 {
                     b.Property<int>("WalletId")
                         .ValueGeneratedOnAdd()
@@ -136,7 +131,7 @@ namespace ASPCOREBASICNET6API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WalletId"));
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserDetailsId")
                         .HasColumnType("int");
 
                     b.Property<string>("WalletName")
@@ -144,12 +139,14 @@ namespace ASPCOREBASICNET6API.Migrations
 
                     b.HasKey("WalletId");
 
+                    b.HasIndex("UserDetailsId");
+
                     b.ToTable("Wallets");
                 });
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.Asset", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.Asset", b =>
                 {
-                    b.HasOne("ASP_CORE_BASIC_NET_6_API.Models.Domain.Wallet", "Wallet")
+                    b.HasOne("ASP_CORE_BASIC_NET_6_API.Repository.Models.Wallet", "Wallet")
                         .WithMany("Assets")
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -158,39 +155,47 @@ namespace ASPCOREBASICNET6API.Migrations
                     b.Navigation("Wallet");
                 });
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.UserDetails", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.UserDetails", b =>
                 {
-                    b.HasOne("ASP_CORE_BASIC_NET_6_API.Models.Domain.User", "User")
+                    b.HasOne("ASP_CORE_BASIC_NET_6_API.Repository.Models.User", "User")
                         .WithOne("UserDetails")
-                        .HasForeignKey("ASP_CORE_BASIC_NET_6_API.Models.Domain.UserDetails", "UserId")
+                        .HasForeignKey("ASP_CORE_BASIC_NET_6_API.Repository.Models.UserDetails", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ASP_CORE_BASIC_NET_6_API.Models.Domain.UserRole", "UserRole")
+                    b.HasOne("ASP_CORE_BASIC_NET_6_API.Repository.Models.UserRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ASP_CORE_BASIC_NET_6_API.Models.Domain.Wallet", "Wallet")
-                        .WithMany()
-                        .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
 
                     b.Navigation("UserRole");
-
-                    b.Navigation("Wallet");
                 });
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.User", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.Wallet", b =>
+                {
+                    b.HasOne("ASP_CORE_BASIC_NET_6_API.Repository.Models.UserDetails", "UserDetails")
+                        .WithMany("Wallets")
+                        .HasForeignKey("UserDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserDetails");
+                });
+
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.User", b =>
                 {
                     b.Navigation("UserDetails");
                 });
 
-            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.Wallet", b =>
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.UserDetails", b =>
+                {
+                    b.Navigation("Wallets");
+                });
+
+            modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Repository.Models.Wallet", b =>
                 {
                     b.Navigation("Assets");
                 });

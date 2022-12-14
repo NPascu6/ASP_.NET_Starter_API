@@ -17,25 +17,21 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
         public async Task<IEnumerable<UserDetails>> GetAllAsync()
         {
             return await _dbContext.UserDetails
-                .Include(d => d.Wallet)
-                    .ThenInclude(w => w.Assets)
                 .Include(d => d.UserRole)
                 .ToListAsync();
         }
 
         public async Task<UserDetails?> GetAsync(int id)
         {
-            return await  _dbContext.UserDetails.Include(d => d.Wallet)
-                    .ThenInclude(w => w.Assets)
+            return await  _dbContext.UserDetails
                 .Include(d => d.UserRole)
                 .FirstOrDefaultAsync(userDetails => userDetails.UserDetailsId == id);
         }
 
         public async Task<UserDetails?> GetByUserIdAsync(int id)
         {
-            return await _dbContext.UserDetails.Include(d => d.Wallet)
-                    .ThenInclude(w => w.Assets)
-                .Include(d => d.UserRole)
+            return await _dbContext.UserDetails.Include(d => d.UserRole)
+                
                 .FirstOrDefaultAsync(userDetails => userDetails.UserId == id);
         }
 

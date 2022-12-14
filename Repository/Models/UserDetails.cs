@@ -23,9 +23,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Repository.Models
         public int UserRoleId { get; set; }
         public UserRole? UserRole { get; set; }
 
-
-        [ForeignKey(nameof(WalletId))]
-        public int WalletId { get; set; }
-        public Wallet? Wallet { get; set; }
+        public IEnumerable<Wallet> Wallets { get; set; }
     }
 }

@@ -59,7 +59,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             {
                 var wallet = _mapper.Map<Wallet>(walletDTO);
 
-                wallet.UserId = userId;
+                wallet.UserDetailsId = userId;
                 var addedWallet = await _walletRepository.AddAsync(wallet);
 
                 if (addedWallet == null) return null;

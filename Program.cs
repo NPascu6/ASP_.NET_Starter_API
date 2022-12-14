@@ -1,6 +1,8 @@
 using ASP_CORE_BASIC_NET_6_API.Data;
 using Microsoft.EntityFrameworkCore;
 using ASP_CORE_BASIC_NET_6_API.Helpers;
+using FluentValidation;
+using ASP_CORE_BASIC_NET_6_API.Validators;
 
 const string _MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddValidatorsFromAssemblyContaining<UserValidators>();
+builder.Services.AddValidatorsFromAssemblyContaining<UserDetailsValidators>();
 
 //Add sql server db context.
 builder.Services.AddDbContext<DBContextBase>(options =>
