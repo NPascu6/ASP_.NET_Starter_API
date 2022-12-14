@@ -24,19 +24,48 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             return await _dbContext.Assets.FirstOrDefaultAsync(a => a.AssetId == id);
         }
 
-        public Task<Asset> AddAsync(Asset asset)
+        public async Task<Asset> AddAsync(Asset asset)
         {
-            throw new NotImplementedException();
+            await _dbContext.Assets.AddAsync(asset);
+            await _dbContext.SaveChangesAsync();
+
+            return asset;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var asset = _dbContext.Assets.FirstOrDefault(u => u.AssetId == id);
+
+            if (asset != null)
+            {
+                _dbContext.Assets.Remove(asset);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public Task<Asset> UpdateAsync(Asset asset)
+        public async Task<Asset?> UpdateAsync(Asset asset, int id)
         {
-            throw new NotImplementedException();
+            var existing = await _dbContext.Assets.FirstOrDefaultAsync(u => u.AssetId == id);
+            if (existing != null)
+            {
+                existing.AssetName = asset.AssetName;
+                existing.AssetQuantity = asset.AssetQuantity;
+
+                _dbContext.Assets.Update(existing);
+                await _dbContext.SaveChangesAsync();
+
+                return existing;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

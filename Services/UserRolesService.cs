@@ -1,4 +1,5 @@
-﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+﻿using ASP_CORE_BASIC_NET_6_API.Models.Domain;
+using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
 using ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using AutoMapper;
@@ -16,22 +17,88 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             this._mapper = mapper;
         }
 
-        public List<UserRoleDTO> GetAllUserRoles()
+        public async Task<List<UserRoleDTO>> GetAllUserRoles()
         {
-            var allRoles = _userRolesRepository.GetAllAsync().Result;
-            var allRolesDTOs = _mapper.Map<List<UserRoleDTO>>(allRoles);
+            try
+            {
+                var allRoles = await _userRolesRepository.GetAllAsync();
+                var allRolesDTOs = _mapper.Map<List<UserRoleDTO>>(allRoles);
 
-            return allRolesDTOs;
+                return allRolesDTOs;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<UserRoleDTO>();
+            }
+        
         }
 
-        public UserRoleDTO? GetUserRoleById(int id)
+        public async Task<UserRoleDTO?> GetUserRoleById(int id)
         {
-            var userRole = _userRolesRepository.GetAsync(id).Result;
+            var userRole =  await _userRolesRepository.GetAsync(id);
             if (userRole == null) return null;
             else
             {
                 var roleDTO = _mapper.Map<UserRoleDTO>(userRole);
                 return roleDTO;
+            }
+        }
+
+        public async Task<UserRoleDTO?> AddUserRole(UserRoleDTO userRoleDTO)
+        {
+            try
+            {
+                var userRole = _mapper.Map<UserRole>(userRoleDTO);
+
+                var addedUserRole = await _userRolesRepository.AddAsync(userRole);
+
+                if (addedUserRole == null) return null;
+                else
+                {
+                    var added = _mapper.Map<UserRoleDTO>(addedUserRole);
+                    return added;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<UserRoleDTO?> UpdateUserRole(UserRoleDTO userRoleDTO, int id)
+        {
+            try
+            {
+                var userRole = _mapper.Map<UserRole>(userRoleDTO);
+
+                var updated = await _userRolesRepository.UpdateAsync(userRole, id);
+
+                if (updated == null) return null;
+                else
+                {
+                    var updatedDTO = _mapper.Map<UserRoleDTO>(updated);
+                    return updatedDTO;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteUserRole(int id)
+        {
+            try
+            {
+                return await _userRolesRepository.DeleteAsync(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
             }
         }
     }

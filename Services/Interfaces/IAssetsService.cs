@@ -4,7 +4,10 @@ namespace ASP_CORE_BASIC_NET_6_API.Services.Interfaces
 {
     public interface IAssetsService
     {
-        List<AssetDTO> GetAllAssets();
-        AssetDTO? GetAssetById(int id);
+        Task<List<AssetDTO>> GetAllAssets();
+        Task<AssetDTO?> GetAssetById(int id);
+        Task<AssetDTO?> AddAsset(AssetDTO assetDTO, int walletId);
+        Task<AssetDTO?> UpdateAsset(AssetDTO assetDTO, int id);
+        Task<bool> DeleteAsset(int id);
     }
 }

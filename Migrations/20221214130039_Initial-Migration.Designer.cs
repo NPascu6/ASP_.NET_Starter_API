@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPCOREBASICNET6API.Migrations
 {
     [DbContext(typeof(DBContextBase))]
-    [Migration("20221213214238_Initial")]
-    partial class Initial
+    [Migration("20221214130039_Initial-Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,6 +136,9 @@ namespace ASPCOREBASICNET6API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WalletId"));
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("WalletName")
                         .HasColumnType("nvarchar(max)");
 
@@ -184,8 +187,7 @@ namespace ASPCOREBASICNET6API.Migrations
 
             modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.User", b =>
                 {
-                    b.Navigation("UserDetails")
-                        .IsRequired();
+                    b.Navigation("UserDetails");
                 });
 
             modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.Wallet", b =>

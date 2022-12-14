@@ -24,19 +24,48 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             return await _dbContext.UserRoles.FirstOrDefaultAsync(ur => ur.UserRoleId == id);
         }
 
-        public Task<UserRole> AddAsync(UserRole userRole)
+        public async Task<UserRole> AddAsync(UserRole userRole)
         {
-            throw new NotImplementedException();
+            await _dbContext.UserRoles.AddAsync(userRole);
+            await _dbContext.SaveChangesAsync();
+
+            return userRole;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var userRole = _dbContext.UserRoles.FirstOrDefault(u => u.UserRoleId == id);
+
+            if (userRole != null)
+            {
+                _dbContext.UserRoles.Remove(userRole);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public Task<UserRole> UpdateAsync(UserRole userRole)
+        public async Task<UserRole?> UpdateAsync(UserRole userRole, int id)
         {
-            throw new NotImplementedException();
+            var existing = await _dbContext.UserRoles.FirstOrDefaultAsync(u => u.UserRoleId == id);
+            if (existing != null)
+            {
+                existing.RoleName = userRole.RoleName;
+                existing.RoleId = userRole.RoleId;
+
+                _dbContext.UserRoles.Update(existing);
+                await _dbContext.SaveChangesAsync();
+
+                return existing;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

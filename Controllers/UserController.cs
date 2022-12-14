@@ -37,10 +37,31 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
 
         [Authorize]
         [HttpPost]
+        [Route("/AddUser")]
         public async Task<IActionResult> AddUser(UserDTO userDTO)
         {
             var user = await _usersService.AddUser(userDTO);
             if (user == null) return NotFound($"Item {userDTO} not added.");
+            return Ok(user);
+        }
+
+        [Authorize]
+        [HttpPatch]
+        [Route("/UpdateUser/{id}")]
+        public async Task<IActionResult> UpdateUser(UserDTO userDTO, int id)
+        {
+            var user = await _usersService.UpdateUser(userDTO, id);
+            if (user == null) return NotFound($"Item {userDTO} not updated.");
+            return Ok(user);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("/DeleteUser/{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = await _usersService.DeleteUser(id);
+            if (user == false) return NotFound($"User {id} not found.");
             return Ok(user);
         }
     }

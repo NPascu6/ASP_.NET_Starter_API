@@ -14,12 +14,12 @@ VALUES ('Test', 'User', 'testUser@test.com');
 INSERT INTO Users (LastName, FirstName, Email) 
 VALUES ('Test', 'Trial', 'testTrial@test.com');
 
-INSERT INTO Wallets(WalletName)
-VALUES ('Test Wallet Pro');
-INSERT INTO Wallets(WalletName)
-VALUES ('Test Wallet User');
-INSERT INTO Wallets(WalletName)
-VALUES ('Test Wallet Trial' );
+INSERT INTO Wallets(WalletName, UserId)
+VALUES ('Test Wallet Pro', 1);
+INSERT INTO Wallets(WalletName, UserId)
+VALUES ('Test Wallet User', 2);
+INSERT INTO Wallets(WalletName, UserId)
+VALUES ('Test Wallet Trial',3);
 
 INSERT INTO UserDetails(UserId, PhoneNumber, Address, BirthDate, UserRoleId, WalletId)
 VALUES (1, 765952211 , 'Test Address Pro', '12.12.1994', 1,1);

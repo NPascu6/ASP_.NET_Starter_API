@@ -39,19 +39,49 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
                 .FirstOrDefaultAsync(userDetails => userDetails.UserId == id);
         }
 
-        public Task<UserDetails> AddAsync(UserDetails userDetails)
+        public async Task<UserDetails> AddAsync(UserDetails userDetails)
         {
-            throw new NotImplementedException();
+            await _dbContext.UserDetails.AddAsync(userDetails);
+            await _dbContext.SaveChangesAsync();
+
+            return userDetails;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var userDetails = _dbContext.UserDetails.FirstOrDefault(u => u.UserDetailsId == id);
+
+            if (userDetails != null)
+            {
+                _dbContext.UserDetails.Remove(userDetails);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public Task<UserDetails> UpdateAsync(UserDetails userDetails)
+        public async Task<UserDetails?> UpdateAsync(UserDetails userDetails, int userId)
         {
-            throw new NotImplementedException();
+            var existing = await _dbContext.UserDetails.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (existing != null)
+            {
+                existing.BirthDate = userDetails.BirthDate;
+                existing.PhoneNumber = userDetails.PhoneNumber;
+                existing.Address = userDetails.Address;
+
+                _dbContext.UserDetails.Update(existing);
+                await _dbContext.SaveChangesAsync();
+
+                return existing;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

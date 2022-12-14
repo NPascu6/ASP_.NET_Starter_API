@@ -46,14 +46,42 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             return user;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var user = _dbContext.Users.FirstOrDefault(u => u.UserId == id);
+
+            if (user != null)
+            {
+                _dbContext.Users.Remove(user);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public Task<User> UpdateAsync(User user)
+        public async Task<User?> UpdateAsync(User user, int id)
         {
-            throw new NotImplementedException();
+            var existing = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            if(existing != null)
+            {
+                existing.UserDetails = user.UserDetails;
+                existing.LastName = user.LastName;
+                existing.FirstName = user.FirstName;
+                existing.Email = user.Email;
+
+                _dbContext.Users.Update(existing);
+                await _dbContext.SaveChangesAsync();
+
+                return existing;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

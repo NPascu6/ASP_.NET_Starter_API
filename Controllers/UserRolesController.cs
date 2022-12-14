@@ -1,4 +1,5 @@
-﻿using ASP_CORE_BASIC_NET_6_API.Services;
+﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+using ASP_CORE_BASIC_NET_6_API.Services;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         [Authorize]
         [HttpGet]
         [Route("/GetAllUserRoles")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var userRoles = _userRolesService.GetAllUserRoles();
+            var userRoles = await _userRolesService.GetAllUserRoles();
 
             return Ok(userRoles);
         }
@@ -29,10 +30,40 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         [Authorize]
         [HttpGet]
         [Route("/GetUserRoleById/{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var userRole = _userRolesService.GetUserRoleById(id);
+            var userRole =  await _userRolesService.GetUserRoleById(id);
             if(userRole == null) return NotFound($"Item with id {id} not found."); ;
+            return Ok(userRole);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("/AddUserRole")]
+        public async Task<IActionResult> AddUserRole(UserRoleDTO userRoleDTO)
+        {
+            var userRole = await _userRolesService.AddUserRole(userRoleDTO);
+            if (userRole == null) return NotFound($"Item {userRoleDTO} not added.");
+            return Ok(userRole);
+        }
+
+        [Authorize]
+        [HttpPatch]
+        [Route("/UpdateUserRole/{id}")]
+        public async Task<IActionResult> UpdateUserRole(UserRoleDTO userRoleDTO, int id)
+        {
+            var userRole = await _userRolesService.UpdateUserRole(userRoleDTO, id);
+            if (userRole == null) return NotFound($"Item {userRoleDTO} not updated.");
+            return Ok(userRole);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("/DeleteUserRole/{id}")]
+        public async Task<IActionResult> DeleteUserRole(int id)
+        {
+            var userRole = await _userRolesService.DeleteUserRole(id);
+            if (userRole == false) return NotFound($"User role {id} not found.");
             return Ok(userRole);
         }
     }

@@ -28,7 +28,8 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             }
             catch (Exception e)
             {
-                return null;
+                Console.WriteLine(e);
+                return new List<UserDTO>();
             }
         }
 
@@ -47,6 +48,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return null;
             }
         }
@@ -68,7 +70,43 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return null;
+            }
+        }
+
+        public async Task<UserDTO?> UpdateUser(UserDTO userDTO, int id)
+        {
+            try
+            {
+                var user = _mapper.Map<User>(userDTO);
+
+                var addedUser = await _userRepository.UpdateAsync(user, id);
+
+                if (addedUser == null) return null;
+                else
+                {
+                    var added = _mapper.Map<UserDTO>(addedUser);
+                    return added;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteUser(int id)
+        {
+            try
+            {
+                return await _userRepository.DeleteAsync(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
             }
         }
     }

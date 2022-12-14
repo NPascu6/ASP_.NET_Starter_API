@@ -1,4 +1,5 @@
-﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+﻿using ASP_CORE_BASIC_NET_6_API.Models.Domain;
+using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
 using ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using AutoMapper;
@@ -15,26 +16,99 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             this._mapper = mapper;
         }
 
-        public List<WalletDTO> GetAllWallets()
+        public async Task<List<WalletDTO>> GetAllWallets()
         {
-            var allWallets = _walletRepository.GetAllAsync().Result;
-            var allWalletsDTOs = _mapper.Map<List<WalletDTO>>(allWallets);
+            try
+            {
+                var allWallets = await _walletRepository.GetAllAsync();
+                var allWalletsDTOs = _mapper.Map<List<WalletDTO>>(allWallets);
 
-            return allWalletsDTOs;
+                return allWalletsDTOs;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<WalletDTO>();
+            }
         }
 
-        public WalletDTO? GetWalletById(int id)
+        public async Task<WalletDTO?> GetWalletById(int id)
         {
-            var wallet = _walletRepository.GetAsync(id).Result;
-
-            if(wallet == null) return null;
-
-            else
+            try
             {
-                var walletDTO = _mapper.Map<WalletDTO>(wallet);
-                return walletDTO;
+                var wallet = await _walletRepository.GetAsync(id);
+
+                if (wallet == null) return null;
+
+                else
+                {
+                    var walletDTO = _mapper.Map<WalletDTO>(wallet);
+                    return walletDTO;
+                }
             }
-        
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<WalletDTO?> AddWallet(WalletDTO walletDTO, int userId)
+        {
+            try
+            {
+                var wallet = _mapper.Map<Wallet>(walletDTO);
+
+                wallet.UserId = userId;
+                var addedWallet = await _walletRepository.AddAsync(wallet);
+
+                if (addedWallet == null) return null;
+                else
+                {
+                    var added = _mapper.Map<WalletDTO>(addedWallet);
+                    return added;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<WalletDTO?> UpdateWallet(WalletDTO walletDTO, int id)
+        {
+            try
+            {
+                var wallet = _mapper.Map<Wallet>(walletDTO);
+
+                var updated = await _walletRepository.UpdateAsync(wallet, id);
+
+                if (updated == null) return null;
+                else
+                {
+                    var updatedDTO = _mapper.Map<WalletDTO>(updated);
+                    return updatedDTO;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteWallet(int id)
+        {
+            try
+            {
+                return await _walletRepository.DeleteAsync(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
     }
 }

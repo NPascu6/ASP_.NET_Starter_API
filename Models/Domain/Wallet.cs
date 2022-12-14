@@ -9,6 +9,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Models.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int WalletId { get; set; }
         public string? WalletName { get; set; }
+        public int UserId { get; set; }
         public IEnumerable<Asset>? Assets { get; set; }
     }
 }

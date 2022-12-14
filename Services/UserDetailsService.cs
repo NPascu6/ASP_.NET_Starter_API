@@ -1,4 +1,6 @@
-﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+﻿using ASP_CORE_BASIC_NET_6_API.Models.Domain;
+using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+using ASP_CORE_BASIC_NET_6_API.Repositories;
 using ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using AutoMapper;
@@ -16,35 +18,118 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             this._mapper = mapper;
         }
 
-        public List<UserDetailsDTO> GetAllUserDetails()
+        public async Task<List<UserDetailsDTO>> GetAllUserDetails()
         {
-            var allUsersDetails = _userDetailsRepository.GetAllAsync().Result;
-            var allUsersDetailsDTOs = _mapper.Map<List<UserDetailsDTO>>(allUsersDetails);
+            try
+            {
+                var allUsersDetails = await _userDetailsRepository.GetAllAsync();
+                var allUsersDetailsDTOs = _mapper.Map<List<UserDetailsDTO>>(allUsersDetails);
 
-            return allUsersDetailsDTOs;
+                return allUsersDetailsDTOs;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return new List<UserDetailsDTO>();
+            }
+    
         }
     
-        public UserDetailsDTO? GetUserDetailsById(int id)
+        public async Task<UserDetailsDTO?> GetUserDetailsById(int id)
         {
-            var userDetails = _userDetailsRepository.GetAsync(id).Result;
-
-            if(userDetails == null) return null;
-            else
+            try
             {
-                var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
-                return userDetailsDTO;
+                var userDetails = await _userDetailsRepository.GetAsync(id);
+
+                if (userDetails == null) return null;
+                else
+                {
+                    var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
+                    return userDetailsDTO;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
             }
         }
 
-        public UserDetailsDTO? GetUserDetailsByUserId(int id)
+        public async Task<UserDetailsDTO?> GetUserDetailsByUserId(int id)
         {
-            var userDetails = _userDetailsRepository.GetByUserIdAsync(id).Result;
-
-            if (userDetails == null) return null;
-            else
+            try
             {
-                var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
-                return userDetailsDTO;
+                var userDetails = await _userDetailsRepository.GetByUserIdAsync(id);
+
+                if (userDetails == null) return null;
+                else
+                {
+                    var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
+                    return userDetailsDTO;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            } 
+        }
+
+        public async Task<UserDetailsDTO?> AddUserDetails(UserDetailsDTO userRoleDTO, int userId)
+        {
+            try
+            {
+                var userDetails = _mapper.Map<UserDetails>(userRoleDTO);
+
+                userDetails.UserId = userId;
+                var addedUserDetails = await _userDetailsRepository.AddAsync(userDetails);
+
+                if (addedUserDetails == null) return null;
+                else
+                {
+                    var added = _mapper.Map<UserDetailsDTO>(addedUserDetails);
+                    return added;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<UserDetailsDTO?> UpdateUserDetails(UserDetailsDTO userDetailsDTO, int id)
+        {
+            try
+            {
+                var userDetails = _mapper.Map<UserDetails>(userDetailsDTO);
+
+                var updated = await _userDetailsRepository.UpdateAsync(userDetails, id);
+
+                if (updated == null) return null;
+                else
+                {
+                    var updatedDTO = _mapper.Map<UserDetailsDTO>(updated);
+                    return updatedDTO;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteUserDetails(int id)
+        {
+            try
+            {
+                return await _userDetailsRepository.DeleteAsync(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
             }
         }
     }

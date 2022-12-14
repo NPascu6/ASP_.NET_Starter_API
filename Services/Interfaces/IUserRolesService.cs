@@ -4,7 +4,10 @@ namespace ASP_CORE_BASIC_NET_6_API.Services.Interfaces
 {
     public interface IUserRolesService
     {
-        List<UserRoleDTO> GetAllUserRoles();
-        UserRoleDTO? GetUserRoleById(int id);
+        Task<List<UserRoleDTO>> GetAllUserRoles();
+        Task<UserRoleDTO?> GetUserRoleById(int id);
+        Task<UserRoleDTO?> AddUserRole(UserRoleDTO userRoleDTO);
+        Task<UserRoleDTO?> UpdateUserRole(UserRoleDTO userRoleDTO, int id);
+        Task<bool> DeleteUserRole(int id);
     }
 }

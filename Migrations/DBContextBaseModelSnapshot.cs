@@ -133,6 +133,9 @@ namespace ASPCOREBASICNET6API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WalletId"));
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("WalletName")
                         .HasColumnType("nvarchar(max)");
 
@@ -181,8 +184,7 @@ namespace ASPCOREBASICNET6API.Migrations
 
             modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.User", b =>
                 {
-                    b.Navigation("UserDetails")
-                        .IsRequired();
+                    b.Navigation("UserDetails");
                 });
 
             modelBuilder.Entity("ASP_CORE_BASIC_NET_6_API.Models.Domain.Wallet", b =>

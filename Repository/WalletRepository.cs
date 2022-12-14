@@ -28,19 +28,47 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
                 .FirstOrDefaultAsync(w => w.WalletId == id);
         }
 
-        public Task<Wallet> AddAsync(Wallet wallet)
+        public async Task<Wallet> AddAsync(Wallet wallet)
         {
-            throw new NotImplementedException();
+            await _dbContext.Wallets.AddAsync(wallet);
+            await _dbContext.SaveChangesAsync();
+
+            return wallet;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var wallet = _dbContext.Wallets.FirstOrDefault(u => u.WalletId == id);
+
+            if (wallet != null)
+            {
+                _dbContext.Wallets.Remove(wallet);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public Task<Wallet> UpdateAsync(Wallet wallet)
+        public async Task<Wallet?> UpdateAsync(Wallet wallet, int id)
         {
-            throw new NotImplementedException();
+            var existing = await _dbContext.Wallets.FirstOrDefaultAsync(u => u.WalletId == id);
+            if (existing != null)
+            {
+                existing.WalletName = wallet.WalletName;
+
+                _dbContext.Wallets.Update(existing);
+                await _dbContext.SaveChangesAsync();
+
+                return existing;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
