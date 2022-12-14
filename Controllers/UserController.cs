@@ -1,4 +1,5 @@
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP_CORE_BASIC_NET_6_API.Controllers
@@ -14,6 +15,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             this._usersService = usersService;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/GetAllUsers")]
         public IActionResult GetAllUsers()
