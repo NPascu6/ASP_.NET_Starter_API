@@ -23,6 +23,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Repository.Models
         public int UserRoleId { get; set; }
         public UserRole? UserRole { get; set; }
 
-        public IEnumerable<Wallet> Wallets { get; set; }
+        public IEnumerable<Wallet>? Wallets { get; set; }
     }
 }

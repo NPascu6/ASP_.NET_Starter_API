@@ -1,3 +1,4 @@
+using ASP_CORE_BASIC_NET_6_API.Helpers;
 using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using ASP_CORE_BASIC_NET_6_API.Validators;
@@ -17,8 +18,9 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             this._usersService = usersService;
         }
 
-        [Authorize]
         [HttpGet]
+        [Authorize]
+        [UserAuthorization]
         [Route("/GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {

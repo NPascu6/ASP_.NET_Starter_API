@@ -2,7 +2,8 @@
 {
     public class WalletDTO
     {
-        public int UserId { get; set; }
+        public int WalletId { get; set; }
+        public int UserDetailsId { get; set; }
         public string? WalletName { get; set; }
         public IEnumerable<AssetDTO>? Assets { get; set; }
     }
