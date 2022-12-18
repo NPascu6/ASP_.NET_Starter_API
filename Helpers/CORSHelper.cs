@@ -13,7 +13,8 @@
                                       policy.WithOrigins("http://localhost:3000",
                                                           "https://pascu.io")
                                       .AllowAnyHeader()
-                                      .AllowAnyMethod(); ;
+                                      .AllowCredentials()
+                                      .AllowAnyMethod();
                                   });
             });
         }

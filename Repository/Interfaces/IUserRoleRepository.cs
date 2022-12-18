@@ -9,5 +9,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces
         Task<UserRole> AddAsync(UserRole userRole);
         Task<UserRole?> UpdateAsync(UserRole userRole, int id);
         Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAllAsync();
     }
 }

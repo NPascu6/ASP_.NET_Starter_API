@@ -1,4 +1,5 @@
 ﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+using ASP_CORE_BASIC_NET_6_API.Repositories;
 using ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces;
 using ASP_CORE_BASIC_NET_6_API.Repository.Models;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
@@ -107,6 +108,19 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAllWallets()
+        {
+            try
+            {
+                return await _walletRepository.DeleteAllAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
                 return false;
             }
         }

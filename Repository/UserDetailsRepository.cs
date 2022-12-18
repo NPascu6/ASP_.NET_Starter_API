@@ -60,6 +60,25 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             }
         }
 
+        public async Task<bool> DeleteAllAsync()
+        {
+            var allUsers = _dbContext.UserDetails.ToList();
+
+
+            if (allUsers != null)
+            {
+
+                _dbContext.UserDetails.RemoveRange(allUsers);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<UserDetails?> UpdateAsync(UserDetails userDetails, int userId)
         {
             var existing = await _dbContext.UserDetails.FirstOrDefaultAsync(u => u.UserId == userId);

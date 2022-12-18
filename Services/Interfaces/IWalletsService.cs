@@ -9,5 +9,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Services.Interfaces
         Task<WalletDTO?> AddWallet(WalletDTO walletDTO, int userId);
         Task<WalletDTO?> UpdateWallet(WalletDTO userDTO, int id);
         Task<bool> DeleteWallet(int id);
+        Task<bool> DeleteAllWallets();
     }
 }

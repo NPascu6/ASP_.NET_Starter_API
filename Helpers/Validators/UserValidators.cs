@@ -9,8 +9,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Validators
         {
             RuleFor(x => x != null);
             RuleFor(x => x.Email).NotEmpty();
-            RuleFor(x => x.FirstName).NotEmpty();
-            RuleFor(x => x.LastName).NotEmpty();
+            RuleFor(x => x.UserName).NotEmpty();
         }
     }
 }

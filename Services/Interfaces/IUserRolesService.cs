@@ -9,5 +9,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Services.Interfaces
         Task<UserRoleDTO?> AddUserRole(UserRoleDTO userRoleDTO);
         Task<UserRoleDTO?> UpdateUserRole(UserRoleDTO userRoleDTO, int id);
         Task<bool> DeleteUserRole(int id);
+        Task<bool> DeleteAllUserRoles();
     }
 }

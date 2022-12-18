@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPCOREBASICNET6API.Migrations
 {
     [DbContext(typeof(DBContextBase))]
-    [Migration("20221215103013_Initial_v1")]
-    partial class Initialv1
+    [Migration("20221217181944_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,13 +57,16 @@ namespace ASPCOREBASICNET6API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool?>("IsConnected")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
@@ -111,9 +114,6 @@ namespace ASPCOREBASICNET6API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserRoleId"));
-
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
 
                     b.Property<string>("RoleName")
                         .HasColumnType("nvarchar(max)");

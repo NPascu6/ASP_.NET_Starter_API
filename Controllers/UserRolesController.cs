@@ -1,4 +1,7 @@
-﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+﻿using ASP_CORE_BASIC_NET_6_API.CustomAuthorizationAttributes;
+using ASP_CORE_BASIC_NET_6_API.Helpers;
+using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+using ASP_CORE_BASIC_NET_6_API.Services;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +20,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         }
 
         [Authorize]
+        [UserAuthorization]
         [HttpGet]
         [Route("/GetAllUserRoles")]
         public async Task<IActionResult> GetAll()
@@ -64,6 +68,16 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             var userRole = await _userRolesService.DeleteUserRole(id);
             if (userRole == false) return NotFound($"User role {id} not found.");
             return Ok(userRole);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("/DeleteAllUserRoles")]
+        public async Task<IActionResult> DeleteUserDetails()
+        {
+            var user = await _userRolesService.DeleteAllUserRoles();
+            if (user == false) return NotFound($"No user deleted.");
+            return Ok(user);
         }
     }
 }

@@ -11,9 +11,9 @@ namespace ASP_CORE_BASIC_NET_6_API.Repository.Models
         public string? AssetName { get; set; }
         public double? AssetQuantity { get; set; }
 
-        public int WalletId { get; set; }
 
         [ForeignKey(nameof(WalletId))]
+        public int WalletId { get; set; }
         public Wallet? Wallet { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+﻿using ASP_CORE_BASIC_NET_6_API.CustomAuthorizationAttributes;
+using ASP_CORE_BASIC_NET_6_API.Helpers;
+using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
+using ASP_CORE_BASIC_NET_6_API.Services;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +20,9 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             this._walletService = walletService;
         }
 
+        [Authorize]
         [HttpGet]
+        [UserAuthorization]
         [Route("/GetAllWallets")]
         public async Task<IActionResult> GetAll()
         {
@@ -63,6 +68,16 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
             var wallet = await _walletService.DeleteWallet(id);
             if (wallet == false) return NotFound($"Wallet {id} not found.");
             return Ok(wallet);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("/DeleteAllWallets")]
+        public async Task<IActionResult> DeleteAllWallets()
+        {
+            var user = await _walletService.DeleteAllWallets();
+            if (user == false) return NotFound($"No user deleted.");
+            return Ok(user);
         }
     }
 }

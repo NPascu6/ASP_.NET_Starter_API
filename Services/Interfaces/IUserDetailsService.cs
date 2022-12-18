@@ -10,5 +10,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Services.Interfaces
         Task<UserDetailsDTO?> AddUserDetails(UserDetailsDTO userDetailsDTO, int userId);
         Task<UserDetailsDTO?> UpdateUserDetails(UserDetailsDTO userDetailsDTO, int userId);
         Task<bool> DeleteUserDetails(int id);
+        Task<bool> DeleteAllUserDetails();
     }
 }

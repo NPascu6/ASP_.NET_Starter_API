@@ -1,4 +1,4 @@
-using ASP_CORE_BASIC_NET_6_API.Helpers;
+using ASP_CORE_BASIC_NET_6_API.CustomAuthorizationAttributes;
 using ASP_CORE_BASIC_NET_6_API.Models.DTOs;
 using ASP_CORE_BASIC_NET_6_API.Services.Interfaces;
 using ASP_CORE_BASIC_NET_6_API.Validators;
@@ -85,6 +85,16 @@ namespace ASP_CORE_BASIC_NET_6_API.Controllers
         {
             var user = await _usersService.DeleteUser(id);
             if (user == false) return NotFound($"User {id} not found.");
+            return Ok(user);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("/DeleteAllUsers")]
+        public async Task<IActionResult> DeleteAllUsers()
+        {
+            var user = await _usersService.DeleteAllUsers();
+            if (user == false) return NotFound($"No user deleted.");
             return Ok(user);
         }
     }

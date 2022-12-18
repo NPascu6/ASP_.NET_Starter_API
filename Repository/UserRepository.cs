@@ -37,6 +37,17 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
                 .FirstOrDefaultAsync(u => u.UserId == id);
         }
 
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _dbContext.Users
+                .Include(c => c.UserDetails)
+                    .ThenInclude(d => d.UserRole)
+                .Include(c => c.UserDetails)
+                    .ThenInclude(d => d.Wallets)
+                        .ThenInclude(e => e.Assets)
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public async Task<User> AddAsync(User user)
         {
             await _dbContext.Users.AddAsync(user);
@@ -62,14 +73,32 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             }
         }
 
+        public async Task<bool> DeleteAllAsync()
+        {
+            var allUsers = _dbContext.Users.ToList();
+
+
+            if (allUsers != null)
+            {
+
+                _dbContext.Users.RemoveRange(allUsers);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<User?> UpdateAsync(User user, int id)
         {
             var existing = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == id);
             if(existing != null)
             {
                 existing.UserDetails = user.UserDetails;
-                existing.LastName = user.LastName;
-                existing.FirstName = user.FirstName;
+                existing.UserName = user.UserName;
                 existing.Email = user.Email;
 
                 _dbContext.Users.Update(existing);

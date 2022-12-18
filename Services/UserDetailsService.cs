@@ -7,7 +7,7 @@ using AutoMapper;
 
 namespace ASP_CORE_BASIC_NET_6_API.Services
 {
-    public class UserDetailsService: IUserDetailsService
+    public class UserDetailsService : IUserDetailsService
     {
         private readonly IUserDetailsRepository _userDetailsRepository;
         private readonly IMapper _mapper;
@@ -27,14 +27,14 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
 
                 return allUsersDetailsDTOs;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return new List<UserDetailsDTO>();
             }
-    
+
         }
-    
+
         public async Task<UserDetailsDTO?> GetUserDetailsById(int id)
         {
             try
@@ -48,7 +48,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
                     return userDetailsDTO;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -68,11 +68,11 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
                     return userDetailsDTO;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
-            } 
+            }
         }
 
         public async Task<UserDetailsDTO?> AddUserDetails(UserDetailsDTO userRoleDTO, int userId)
@@ -130,6 +130,20 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             {
                 Console.WriteLine(e);
                 return false;
+            }
+        }
+
+        public async Task<bool> DeleteAllUserDetails()
+        {
+            try
+            {
+                return await _userDetailsRepository.DeleteAllAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+
             }
         }
     }

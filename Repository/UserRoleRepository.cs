@@ -49,13 +49,31 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             }
         }
 
+        public async Task<bool> DeleteAllAsync()
+        {
+            var allUsers = _dbContext.UserRoles.ToList();
+
+
+            if (allUsers != null)
+            {
+
+                _dbContext.UserRoles.RemoveRange(allUsers);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<UserRole?> UpdateAsync(UserRole userRole, int id)
         {
             var existing = await _dbContext.UserRoles.FirstOrDefaultAsync(u => u.UserRoleId == id);
             if (existing != null)
             {
                 existing.RoleName = userRole.RoleName;
-                existing.RoleId = userRole.RoleId;
 
                 _dbContext.UserRoles.Update(existing);
                 await _dbContext.SaveChangesAsync();

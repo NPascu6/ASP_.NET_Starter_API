@@ -9,5 +9,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories.Interfaces
         Task<Wallet> AddAsync(Wallet wallet);
         Task<Wallet?> UpdateAsync(Wallet wallet, int id);
         Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAllAsync();
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ASP_CORE_BASIC_NET_6_API.Helpers
+namespace ASP_CORE_BASIC_NET_6_API.CustomAuthorizationAttributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class UserAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFilter

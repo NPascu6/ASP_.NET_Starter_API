@@ -9,5 +9,7 @@ namespace ASP_CORE_BASIC_NET_6_API.Services.Interfaces
         Task<AssetDTO?> AddAsset(AssetDTO assetDTO, int walletId);
         Task<AssetDTO?> UpdateAsset(AssetDTO assetDTO, int id);
         Task<bool> DeleteAsset(int id);
+        Task<bool> DeleteAllAssets();
+
     }
 }

@@ -53,6 +53,55 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             }
         }
 
+        public async Task<UserDTO?> GetByEmail(string email)
+        {
+            try
+            {
+                var user = await _userRepository.GetByEmailAsync(email);
+
+                if (user == null) return null;
+                else
+                {
+                    var userDTO = _mapper.Map<UserDTO>(user);
+                    return userDTO;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+
+        public async Task<bool> DeleteUser(int id)
+        {
+            try
+            {
+                return await _userRepository.DeleteAsync(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+
+        public async Task<bool> DeleteAllUsers()
+        {
+            try
+            {
+                return await _userRepository.DeleteAllAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+
         public async Task<UserDTO?> AddUser(UserDTO userDTO)
         {
             try
@@ -97,17 +146,6 @@ namespace ASP_CORE_BASIC_NET_6_API.Services
             }
         }
 
-        public async Task<bool> DeleteUser(int id)
-        {
-            try
-            {
-                return await _userRepository.DeleteAsync(id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
-        }
+
     }
 }

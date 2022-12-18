@@ -53,6 +53,25 @@ namespace ASP_CORE_BASIC_NET_6_API.Repositories
             }
         }
 
+        public async Task<bool> DeleteAllAsync()
+        {
+            var allUsers = _dbContext.Wallets.ToList();
+
+
+            if (allUsers != null)
+            {
+
+                _dbContext.Wallets.RemoveRange(allUsers);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<Wallet?> UpdateAsync(Wallet wallet, int id)
         {
             var existing = await _dbContext.Wallets.FirstOrDefaultAsync(u => u.WalletId == id);
